@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import urllib.request, urllib.parse, urllib.error
 import yaml
+from datetime import datetime as dt
 
 class SlackBot:
     """SlackBot class for KeyaBlog"""
@@ -26,7 +27,7 @@ class SlackBot:
                           "title": entry_info['title'],
                           "title_link": entry_info['url'],
                           "footer": "published on",
-                          "ts": 123456789
+                          "ts": dt.strptime(entry_info['update'], '%Y-%m-%dT%H:%M+09:00').timestamp()
                       }
                   ]
         }
