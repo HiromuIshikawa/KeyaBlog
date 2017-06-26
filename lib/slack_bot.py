@@ -22,7 +22,7 @@ class SlackBot:
                   'icon_url': entry_info['image'],
                   'attachments': [
                       {
-                          "color": "#43B24B",
+                          "color": "#A1599C",
                           "pretext": "新しい記事読んでね!",
                           "title": entry_info['title'],
                           "title_link": entry_info['url'],
