@@ -26,10 +26,13 @@ class UpdateChecker:
         latest_entries = []
         for i, entry in enumerate(new_entry_titles):
             d = {}
+            html_member = urllib.request.urlopen(self.domain + entry.get('value')).read()
+            soup_member = BeautifulSoup(html_member, 'lxml')
+            article = soup_member.find('article').find('div', class_='innerHead').find('a')
             tmp = entry.string.split(' | ')
             d["name"] = tmp[0].split('(')[0].replace(" ", "")
-            d["title"] = tmp[1]
-            d["url"] = self.domain + entry.get('value')
+            d["title"] = article.string
+            d["url"] = self.domain + article.get('href')
             d["image"] = images[i]
             d.update(update_list[i])
             latest_entries.append(d)
@@ -42,7 +45,7 @@ class UpdateChecker:
         f = open('past_checked.txt','r+')
         past_checked = f.readline()
         print(past_checked)
-        past_checked = dt.strptime(past_checked, '%Y-%m-%dT%H:%M+09:00\n')
+        past_checked = dt.strptime(past_checked, '%Y-%m-%dT%H:%M+09:00')
 
         now = dt.now().strftime('%Y-%m-%dT%H:%M+09:00')
         f.seek(0)
