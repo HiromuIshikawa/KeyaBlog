@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from datetime import datetime as dt
+from datetime import timedelta as td
+if __name__ == "__main__":
+
+    now = dt.now()
+    delta = td(days=1)
+    base = now - delta
+    base_str = base.strftime('%Y-%m-%dT%H:%M+09:00')
+
+    f = open('past_checked.txt','w')
+    f.write(base_str)
+    f.close()
