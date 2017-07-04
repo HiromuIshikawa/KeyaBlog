@@ -17,7 +17,7 @@ class SlackBot:
         req = urllib.request.Request(self.url)
         req.add_header('Content-Type', 'application/x-www-form-urlencoded')
         params = {'token': self.token, # token
-                  'channel': "sandbox", # channel ID
+                  'channel': entry_info['name'], # channel ID
                   'username': entry_info['name'],
                   'icon_url': entry_info['icon'],
                   'attachments': [
