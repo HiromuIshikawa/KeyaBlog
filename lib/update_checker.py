@@ -21,19 +21,27 @@ class UpdateChecker:
         update_list = eval(soup.findAll('script')[2].string.replace('\n','')[19:1558].replace('member','"member"').replace('update','"update"'))
 
         image_src = soup.find('ul', class_='thumb').findAll('li')
-        images = [image.find('img').get('src') for image in image_src]
+        member_images = [image.find('img').get('src') for image in image_src]
 
         latest_entries = []
         for i, entry in enumerate(new_entry_titles):
             d = {}
             html_member = urllib.request.urlopen(self.domain + entry.get('value')).read()
             soup_member = BeautifulSoup(html_member, 'lxml')
-            article = soup_member.find('article').find('div', class_='innerHead').find('a')
+            article = soup_member.find('article')
+            link = article.find('div', class_='innerHead').find('a')
+            thum = article.find('div', class_='box-article').find('img')
+            if thum == None:
+                thum_img = ""
+            else:
+                thum_img = thum.get('src')
+
             tmp = entry.string.split(' | ')
             d["name"] = tmp[0].split('(')[0].replace(" ", "")
-            d["title"] = article.string
-            d["url"] = self.domain + article.get('href')
-            d["image"] = images[i]
+            d["title"] = link.string
+            d["url"] = self.domain + link.get('href')
+            d["icon"] = member_images[i]
+            d["thum"] = thum_img
             d.update(update_list[i])
             latest_entries.append(d)
 

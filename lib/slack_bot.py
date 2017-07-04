@@ -19,19 +19,23 @@ class SlackBot:
         params = {'token': self.token, # token
                   'channel': entry_info['name'], # channel ID
                   'username': entry_info['name'],
-                  'icon_url': entry_info['image'],
+                  'icon_url': entry_info['icon'],
                   'attachments': [
                       {
                           "color": "#A1599C",
-                          "pretext": "新しい記事読んでね!",
+                          "text": "新しい記事読んでね!"
+                      },
+                      {
+                          "color": "#43B24B",
                           "title": entry_info['title'],
                           "title_link": entry_info['url'],
+                          "image_url": entry_info['thum'],
                           "footer": "published on",
                           "ts": dt.strptime(entry_info['update'], '%Y-%m-%dT%H:%M+09:00').timestamp()
                       }
                   ]
         }
-
+        print(params)
         params = urllib.parse.urlencode(params).encode("utf-8")
 
         with urllib.request.urlopen(req, params) as res:
