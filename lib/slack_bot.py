@@ -17,18 +17,19 @@ class SlackBot:
         req = urllib.request.Request(self.url)
         req.add_header('Content-Type', 'application/x-www-form-urlencoded')
         params = {'token': self.token, # token
-                  'channel': entry_info['name'], # channel ID
+                  'channel': "sandbox", # channel ID
                   'username': entry_info['name'],
                   'icon_url': entry_info['icon'],
                   'attachments': [
                       {
                           "color": "#A1599C",
-                          "text": "新しい記事読んでね!"
+                          "pretext": "新しい記事読んでね!",
+                          "title": entry_info['title'],
+                          "title_link": entry_info['url']
                       },
                       {
                           "color": "#43B24B",
-                          "title": entry_info['title'],
-                          "title_link": entry_info['url'],
+                          "text": entry_info['head'],
                           "image_url": entry_info['thum'],
                           "footer": "published on",
                           "ts": dt.strptime(entry_info['update'], '%Y-%m-%dT%H:%M+09:00').timestamp()

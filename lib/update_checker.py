@@ -30,7 +30,8 @@ class UpdateChecker:
             soup_member = BeautifulSoup(html_member, 'lxml')
             article = soup_member.find('article')
             link = article.find('div', class_='innerHead').find('a')
-            thum = article.find('div', class_='box-article').find('img')
+            body = article.find('div', class_='box-article')
+            thum = body.find('img')
             if thum == None:
                 thum_img = ""
             else:
@@ -42,6 +43,7 @@ class UpdateChecker:
             d["url"] = self.domain + link.get('href')
             d["icon"] = member_images[i]
             d["thum"] = thum_img
+            d["head"] = body.text[:30].replace('\n', '')+"..."
             d.update(update_list[i])
             latest_entries.append(d)
 
