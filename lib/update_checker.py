@@ -31,11 +31,15 @@ class UpdateChecker:
             article = soup_member.find('article')
             link = article.find('div', class_='innerHead').find('a')
             body = article.find('div', class_='box-article')
-            thum = body.find('img')
-            if thum == None:
+            body_imgs = []
+            imgs = body.findAll('img')
+            if imgs == None:
                 thum_img = ""
+                body_imgs = ""
             else:
-                thum_img = thum.get('src')
+                for img in imgs:
+                    body_imgs.append(img.get('src'))
+                    thum_img = body_imgs[0]
 
             tmp = entry.string.split(' | ')
             d["name"] = tmp[0].split('(')[0].replace(" ", "")
@@ -44,6 +48,7 @@ class UpdateChecker:
             d["icon"] = member_images[i]
             d["thum"] = thum_img
             d["head"] = body.text[:30].replace('\n', '')+"..."
+            d["imgs"] = body_imgs
             d.update(update_list[i])
             latest_entries.append(d)
 

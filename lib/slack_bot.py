@@ -43,6 +43,24 @@ class SlackBot:
             data = res.read().decode("utf-8")
             print(data)
 
+    def post_imgs(self, entry_info):
+        attachments = []
+        for img in entry_info["imgs"]:
+            attachments.append({"color": "#43B24B","text": "","image_url": img})
+        req = urllib.request.Request(self.url)
+        req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+        params = {'token': self.token, # token
+                  'channel': "photo", # channel ID
+                  'username': entry_info['name'],
+                  'icon_url': entry_info['icon'],
+                  'attachments': attachments
+        }
+        print(params)
+        params = urllib.parse.urlencode(params).encode("utf-8")
+
+        with urllib.request.urlopen(req, params) as res:
+            data = res.read().decode("utf-8")
+            print(data)
 
 if __name__ == "__main__":
     f = open("config.yml", 'r')
